@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- WELCOME HEADER -->
+<div class="p-4 mb-4 rounded-3 text-white"
+     style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+    <h2>
+        <i class="fas fa-tachometer-alt"></i>
+        Welcome, {{ current_user.username }}!
+    </h2>
+    <p class="mb-0">
+        <i class="fas fa-graduation-cap"></i>
+        You are enrolled in {{ enrollments|length }} course(s)
+    </p>
+</div>
+
+<!-- STATS ROW -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h3 class="text-primary">
+                <i class="fas fa-book"></i>
+                {{ enrollments|length }}
+            </h3>
+            <p class="text-muted mb-0">Enrolled Courses</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h3 class="text-success">
+                <i class="fas fa-check-circle"></i> 0
+            </h3>
+            <p class="text-muted mb-0">Completed</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h3 class="text-warning">
+                <i class="fas fa-certificate"></i> 0
+            </h3>
+            <p class="text-muted mb-0">Certificates</p>
+        </div>
+    </div>
+</div>
+
+<!-- MY COURSES -->
+<h4 class="mb-3">
+    <i class="fas fa-book-open text-primary"></i>
+    My Enrolled Courses
+</h4>
+
+{% if enrollments %}
+<div class="row">
+    {% for enrollment in enrollments %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+
+            <!-- COURSE THUMBNAIL -->
+            <div class="card-img-top bg-primary text-white
+                        text-center py-4">
+                <i class="fas fa-play-circle fa-3x"></i>
+            </div>
+
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ enrollment.course_id }}
+                </h5>
+                <small class="text-muted">
+                    <i class="fas fa-calendar"></i>
+                    Enrolled: {{ enrollment.enrolled_at.strftime('%B %d, %Y') }}
+                </small>
+            </div>
+
+            <div class="card-footer bg-white">
+                <a href="{{ url_for('main.course_detail',
+                           course_id=enrollment.course_id) }}"
+                   class="btn btn-primary w-100">
+                    <i class="fas fa-play"></i> Continue Learning
+                </a>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+
+<!-- NO ENROLLMENTS -->
+<div class="text-center py-5">
+    <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+    <h4 class="text-muted">No courses yet!</h4>
+    <p class="text-muted">
+        Start learning by enrolling in a course!
+    </p>
+    <a href="{{ url_for('main.courses') }}"
+       class="btn btn-primary mt-2">
+        <i class="fas fa-search"></i> Browse Courses
+    </a>
+</div>
+
+{% endif %}
+
+{% endblock %}

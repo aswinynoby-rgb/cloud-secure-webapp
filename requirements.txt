@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-login
+flask-bcrypt
+flask-wtf
+pymysql
+python-dotenv
+boto3
+email-validator
